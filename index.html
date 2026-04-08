@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Client Activation Tool · OneSource</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--or1:#E99B35;--or2:#EE7623;--or3:#D15E14;--gr:#53575A;--tl1:#00BED6;--tl2:#008AAB;--tl3:#00758D;--bg:#F4F6F9;--white:#fff;--text:#2D3748;--muted:#718096;--border:#E2E8F0;--border2:#CBD5E0;--rad:10px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;}
+header{background:#fff;border-bottom:3px solid var(--or2);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.logo-img{height:30px;width:auto;}
+.hd-sep{width:1px;height:24px;background:var(--border2);margin:0 16px;}
+.hd-info .t{font-size:12px;font-weight:600;color:var(--gr);}
+.hd-info .s{font-size:10px;color:var(--muted);}
+.lang-row{display:flex;gap:4px;}
+.lb{padding:3px 10px;border-radius:20px;border:1.5px solid var(--border2);background:transparent;color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .15s;}
+.lb.on{background:var(--or2);border-color:var(--or2);color:#fff;}
+.stepper{background:#fff;border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;height:52px;overflow-x:auto;}
+.si{display:flex;align-items:center;flex-shrink:0;}
+.sb{display:flex;align-items:center;gap:7px;padding:6px 11px;border:none;background:transparent;cursor:pointer;border-radius:7px;font-family:'Poppins',sans-serif;transition:background .15s;}
+.sb:hover{background:var(--bg);}
+.sn{width:24px;height:24px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--muted);transition:all .2s;flex-shrink:0;}
+.sl{font-size:11px;font-weight:500;color:var(--muted);white-space:nowrap;}
+.si.on .sn{background:var(--or2);border-color:var(--or2);color:#fff;}
+.si.on .sl{color:var(--or2);font-weight:600;}
+.si.dn .sn{background:var(--tl2);border-color:var(--tl2);color:#fff;}
+.si.dn .sl{color:var(--tl2);}
+.sc{width:28px;height:2px;background:var(--border);flex-shrink:0;margin:0 2px;}
+.sc.dn{background:var(--tl2);}
+.strip{padding:14px 28px;display:none;align-items:center;gap:11px;}
+.strip.on{display:flex;}
+#st0{background:linear-gradient(135deg,var(--tl3),var(--tl2));}
+#st1{background:linear-gradient(135deg,var(--or3),var(--or2));}
+#st2{background:linear-gradient(135deg,#5B21B6,#7C3AED);}
+.stnum{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;}
+.stt{font-size:15px;font-weight:700;color:#fff;line-height:1.1;}
+.std{font-size:11px;color:rgba(255,255,255,.78);margin-top:2px;}
+main{max-width:860px;margin:0 auto;padding:24px 20px 80px;}
+.stage{display:none;animation:fu .28s ease;}
+.stage.on{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--rad);padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.ct{font-size:10.5px;font-weight:700;color:var(--gr);display:flex;align-items:center;gap:7px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.7px;}
+.ca{width:3px;height:13px;border-radius:2px;background:var(--or2);flex-shrink:0;}
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:18px;}
+.tab{padding:8px 16px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Poppins',sans-serif;}
+.tab.on{color:var(--or2);border-bottom-color:var(--or2);}
+.tab-pane{display:none;}
+.tab-pane.on{display:block;}
+.field{margin-bottom:12px;}
+label{display:block;font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px;}
+input[type=text],textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'Poppins',sans-serif;font-size:12.5px;outline:none;transition:border-color .15s;resize:vertical;}
+input[type=text]:focus,textarea:focus{border-color:var(--or2);background:#fff;}
+input[type=text]::placeholder,textarea::placeholder{color:#B0BAC9;font-size:12px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;border:none;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;cursor:pointer;transition:all .15s;}
+.bp{background:var(--or2);color:#fff;}
+.bp:hover{background:var(--or3);transform:translateY(-1px);box-shadow:0 4px 10px rgba(238,118,35,.25);}
+.bp:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
+.bt{background:var(--tl2);color:#fff;}
+.bt:hover{background:var(--tl3);transform:translateY(-1px);}
+.bg{background:transparent;color:var(--gr);border:1.5px solid var(--border2);}
+.bg:hover{border-color:var(--or2);color:var(--or2);}
+.bsm{padding:5px 12px;font-size:11px;}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+/* FILE INPUT STYLED */
+.file-input-area{border:1.5px dashed var(--border2);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;background:var(--bg);cursor:pointer;transition:all .2s;}
+.file-input-area:hover{border-color:var(--or2);background:rgba(238,118,35,.04);}
+.file-input-area input{display:none;}
+.file-input-area .fia-icon{font-size:18px;}
+.file-input-area .fia-txt{font-size:12px;color:var(--muted);}
+.file-input-area .fia-txt strong{color:var(--or2);}
+.file-chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;}
+.fchip{display:flex;align-items:center;gap:5px;padding:3px 9px;background:rgba(0,138,171,.08);border:1px solid rgba(0,138,171,.2);border-radius:20px;font-size:10px;color:var(--tl2);font-weight:500;}
+.fchip button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;line-height:1;padding:0;}
+/* OR divider */
+.or-divider{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:11px;color:var(--muted);}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+/* CV DROP */
+.fdrop{border:2px dashed var(--border2);border-radius:10px;padding:22px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:var(--bg);}
+.fdrop:hover,.fdrop.drag{border-color:var(--or2);background:rgba(238,118,35,.04);}
+.fdrop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;}
+.fdrop-txt{font-size:12px;color:var(--muted);}
+.fdrop-txt strong{color:var(--or2);}
+/* AI BOX */
+.aib{background:#EFF9FB;border:1px solid rgba(0,138,171,.18);border-left:3px solid var(--tl2);border-radius:8px;padding:14px 16px;font-size:12.5px;line-height:1.8;color:var(--text);margin-top:12px;white-space:pre-wrap;min-height:48px;}
+.aib.ld{display:flex;align-items:center;gap:8px;color:var(--muted);background:var(--bg);}
+.spin{width:15px;height:15px;border:2px solid var(--border);border-top-color:var(--or2);border-radius:50%;animation:sp .65s linear infinite;flex-shrink:0;}
+@keyframes sp{to{transform:rotate(360deg);}}
+/* OUTPUT TABS */
+.out-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.otab{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border2);font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'Poppins',sans-serif;transition:all .15s;background:#fff;}
+.otab.on{background:var(--tl2);border-color:var(--tl2);color:#fff;}
+.opane{display:none;}
+.opane.on{display:block;}
+/* DOWNLOAD BTN */
+.dl-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;border:1.5px solid rgba(0,138,171,.3);background:rgba(0,138,171,.06);color:var(--tl2);font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;cursor:pointer;margin-top:10px;transition:all .15s;}
+.dl-btn:hover{background:var(--tl2);color:#fff;border-color:var(--tl2);}
+/* CV CARDS */
+.cc{border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:#fff;position:relative;overflow:hidden;transition:box-shadow .15s;}
+.cc:hover{box-shadow:0 4px 14px rgba(0,0,0,.07);}
+.cc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;}
+.cc.rx::before{background:var(--border2);}
+.cc.r2::before{background:var(--tl2);}
+.cc.match-card::before{background:var(--or2);}
+.cc.err-card::before{background:#BE123C;}
+.ch{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;}
+.rb2{width:27px;height:27px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;background:var(--bg);color:var(--muted);}
+.match-card .rb2{background:rgba(238,118,35,.12);color:var(--or2);}
+.rname{font-weight:600;font-size:13px;color:var(--text);flex:1;}
+.score-chip{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
+.sh{background:rgba(0,120,142,.1);color:var(--tl3);}
+.sm{background:rgba(233,155,53,.12);color:var(--or3);}
+.sl2{background:rgba(190,18,60,.1);color:#BE123C;}
+.match-badge{padding:3px 10px;border-radius:20px;background:rgba(238,118,35,.15);border:1px solid rgba(238,118,35,.3);font-size:10px;font-weight:700;color:var(--or2);}
+.cwhy{font-size:11.5px;color:var(--muted);line-height:1.65;margin-bottom:6px;}
+.match-alert{background:linear-gradient(135deg,rgba(238,118,35,.07),rgba(233,155,53,.04));border:1.5px solid rgba(238,118,35,.22);border-radius:9px;padding:12px 14px;margin-top:8px;}
+.ma-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--or2);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.ma-body{font-size:12px;line-height:1.65;color:var(--text);margin-bottom:8px;}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.on{display:flex;}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:660px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+.modal-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1;}
+.modal-head h3{font-size:13px;font-weight:700;color:var(--text);}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);line-height:1;}
+.modal-body{padding:20px;}
+.onepager{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.op-header{background:linear-gradient(135deg,var(--tl3),var(--tl2));padding:20px 22px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+.op-presented{color:rgba(255,255,255,.85);font-size:10px;font-weight:600;letter-spacing:.5px;margin-bottom:8px;}
+.op-name{font-size:20px;font-weight:800;color:#fff;line-height:1.1;margin-bottom:3px;}
+.op-role{font-size:12px;color:rgba(255,255,255,.8);}
+.op-score-ring{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.15);border:3px solid rgba(255,255,255,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.op-score-num{font-size:18px;font-weight:800;color:#fff;line-height:1;}
+.op-score-lbl{font-size:7.5px;color:rgba(255,255,255,.8);font-weight:600;letter-spacing:.5px;margin-top:1px;}
+.op-body{padding:18px 22px;}
+.op-sec{margin-bottom:14px;}
+.op-sec-title{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--or2);margin-bottom:7px;display:flex;align-items:center;gap:6px;}
+.op-sec-title::after{content:'';flex:1;height:1px;background:rgba(238,118,35,.18);}
+.op-text{font-size:12.5px;line-height:1.7;color:var(--text);white-space:pre-wrap;}
+.op-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.op-tag{padding:3px 9px;border-radius:20px;background:var(--bg);border:1px solid var(--border);font-size:10.5px;color:var(--gr);}
+.op-footer{background:var(--bg);border-top:1px solid var(--border);padding:10px 22px;display:flex;align-items:center;justify-content:space-between;}
+.op-footer-txt{font-size:9.5px;color:var(--muted);font-weight:500;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.chip{padding:3px 10px;border-radius:20px;background:rgba(238,118,35,.08);border:1px solid rgba(238,118,35,.2);font-size:10.5px;font-weight:600;color:var(--or3);}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;}
+.info-note{background:rgba(0,138,171,.06);border:1px solid rgba(0,138,171,.15);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--tl3);margin-bottom:14px;display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
+.hr-note-area{background:rgba(238,118,35,.05);border:1px solid rgba(238,118,35,.15);border-radius:8px;padding:10px 12px;margin-top:8px;}
+.hr-note-area label{color:var(--or2);}
+@media(max-width:580px){.g2{grid-template-columns:1fr;}.sl{display:none;}header,.stepper{padding:0 14px;}main{padding:14px 12px 60px;}.strip{padding:12px 14px;}.op-header{flex-direction:column;}.op-score-ring{display:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;">
+    <img class="logo-img" src="data:image/png;base64,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" alt="OneSource by Solvo"/>
+    <div class="hd-sep"></div>
+    <div class="hd-info">
+      <div class="t">Client Activation Tool</div>
+      <div class="s">Governance &amp; Innovation People &middot; Solvo</div>
+    </div>
+  </div>
+  <div class="lang-row">
+    <button class="lb on" onclick="setLang('es')">ES</button>
+    <button class="lb" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<div class="stepper">
+  <div class="si on" id="si0"><button class="sb" onclick="go(0)"><div class="sn">1</div><div class="sl" data-es="Activar" data-en="Activate">Activar</div></button></div>
+  <div class="sc" id="cn0"></div>
+  <div class="si" id="si1"><button class="sb" onclick="go(1)"><div class="sn">2</div><div class="sl" data-es="Screening" data-en="Screen">Screening</div></button></div>
+  <div class="sc" id="cn1"></div>
+  <div class="si" id="si2"><button class="sb" onclick="go(2)"><div class="sn">3</div><div class="sl" data-es="Calibrar" data-en="Calibrate">Calibrar</div></button></div>
+</div>
+
+<div id="st0" class="strip on"><div class="stnum">01</div><div><div class="stt">Activar &mdash; 3 Inputs &rarr; 2 Outputs</div><div class="std">KYC + Job Description + Transcripci&oacute;n de meet &rarr; Scorecard + Job Posting</div></div></div>
+<div id="st1" class="strip"><div class="stnum">02</div><div><div class="stt">Screening &mdash; CV por CV vs Scorecard</div><div class="std">An&aacute;lisis individual por CV. Match &ge;70% genera 1-pager autom&aacute;tico.</div></div></div>
+<div id="st2" class="strip"><div class="stnum">03</div><div><div class="stt">Calibraci&oacute;n &mdash; Shortlist Final</div><div class="std">Ranking de candidatos con match + criterio HR para definir shortlist.</div></div></div>
+
+<main>
+
+<!-- ═══ STAGE 1 ═══ -->
+<div class="stage on" id="s0">
+  <div class="card">
+    <div class="ct"><div class="ca"></div>&#x1F4E5; <span data-es="3 Inputs del Cliente" data-en="3 Client Inputs">3 Inputs del Cliente</span></div>
+    <div class="tabs">
+      <button class="tab on" onclick="showTab(0)" id="tab0">&#x1F4CB; KYC</button>
+      <button class="tab" onclick="showTab(1)" id="tab1">&#x1F4C4; Job Description</button>
+      <button class="tab" onclick="showTab(2)" id="tab2" data-es="&#x1F399; Transcripci&oacute;n Meet" data-en="&#x1F399; Meeting Transcript">&#x1F399; Transcripci&oacute;n Meet</button>
+    </div>
+
+    <!-- TAB 0: KYC -->
+    <div class="tab-pane on" id="tp0">
+      <div class="field">
+        <label data-es="Subir archivo KYC (PDF o Word)" data-en="Upload KYC file (PDF or Word)">Subir archivo KYC (PDF o Word)</label>
+        <div class="file-input-area" onclick="document.getElementById('kyc-file').click()">
+          <input type="file" id="kyc-file" accept=".pdf,.doc,.docx,.txt" onchange="loadInputFile('kyc-file','kyc-preview','kyc-chip')"/>
+          <span class="fia-icon">&#x1F4CE;</span>
+          <div class="fia-txt"><strong data-es="Subir KYC" data-en="Upload KYC">Subir KYC</strong> <span style="font-size:11px;">&mdash; PDF, Word o TXT</span></div>
+        </div>
+        <div id="kyc-chip" class="file-chip-row"></div>
+      </div>
+      <div class="or-divider" data-es="o completar manualmente" data-en="or fill in manually">o completar manualmente</div>
+      <div class="g2">
+        <div class="field"><label data-es="Empresa / Cliente" data-en="Company / Client">Empresa / Cliente</label><input type="text" id="cname" placeholder="e.g. Madanipour Law Group"/></div>
+        <div class="field"><label data-es="Industria" data-en="Industry">Industria</label><input type="text" id="cind" placeholder="e.g. Family Law / Legal"/></div>
+      </div>
+      <div class="g2">
+        <div class="field"><label data-es="Tama&ntilde;o de empresa" data-en="Company size">Tama&ntilde;o de empresa</label><input type="text" id="csize" placeholder="e.g. 5-10 empleados"/></div>
+        <div class="field"><label data-es="Ubicaci&oacute;n / Timezone" data-en="Location / Timezone">Ubicaci&oacute;n / Timezone</label><input type="text" id="cloc" placeholder="e.g. California, PST"/></div>
+      </div>
+      <div class="field"><label data-es="Pain point principal" data-en="Main pain point">Pain point principal</label><textarea id="cpain" rows="2" placeholder="e.g. Need a paralegal to handle case filing ASAP..."></textarea></div>
+      <div class="field"><label data-es="Presupuesto / Rango salarial" data-en="Budget / Salary range">Presupuesto / Rango salarial</label><input type="text" id="cbudget" placeholder="e.g. $55,000-$65,000/year"/></div>
+      <div id="kyc-preview" class="aib" style="display:none;font-size:11.5px;max-height:120px;overflow-y:auto;"></div>
+    </div>
+
+    <!-- TAB 1: JD -->
+    <div class="tab-pane" id="tp1">
+      <div class="field">
+        <label data-es="Subir Job Description (PDF o Word)" data-en="Upload Job Description (PDF or Word)">Subir Job Description (PDF o Word)</label>
+        <div class="file-input-area" onclick="document.getElementById('jd-file').click()">
+          <input type="file" id="jd-file" accept=".pdf,.doc,.docx,.txt" onchange="loadInputFile('jd-file','jd-preview','jd-chip')"/>
+          <span class="fia-icon">&#x1F4CE;</span>
+          <div class="fia-txt"><strong data-es="Subir JD" data-en="Upload JD">Subir JD</strong> <span style="font-size:11px;">&mdash; PDF, Word o TXT</span></div>
+        </div>
+        <div id="jd-chip" class="file-chip-row"></div>
+      </div>
+      <div class="or-divider" data-es="o completar manualmente" data-en="or fill in manually">o completar manualmente</div>
+      <div class="field"><label data-es="Puesto a Cubrir" data-en="Role to Fill">Puesto a Cubrir</label><input type="text" id="role" placeholder="e.g. Paralegal"/></div>
+      <div class="field"><label data-es="Job Description completa" data-en="Full Job Description">Job Description completa</label><textarea id="jd" rows="7" placeholder="Paste the full job description here..."></textarea></div>
+      <div id="jd-preview" class="aib" style="display:none;font-size:11.5px;max-height:120px;overflow-y:auto;"></div>
+    </div>
+
+    <!-- TAB 2: TRANSCRIPT -->
+    <div class="tab-pane" id="tp2">
+      <div class="field">
+        <label data-es="Subir transcripci&oacute;n (PDF, Word o TXT)" data-en="Upload transcript (PDF, Word or TXT)">Subir transcripci&oacute;n (PDF, Word o TXT)</label>
+        <div class="file-input-area" onclick="document.getElementById('tr-file').click()">
+          <input type="file" id="tr-file" accept=".pdf,.doc,.docx,.txt" onchange="loadInputFile('tr-file','tr-preview','tr-chip')"/>
+          <span class="fia-icon">&#x1F4CE;</span>
+          <div class="fia-txt"><strong data-es="Subir transcripci&oacute;n" data-en="Upload transcript">Subir transcripci&oacute;n</strong> <span style="font-size:11px;">&mdash; PDF, Word o TXT</span></div>
+        </div>
+        <div id="tr-chip" class="file-chip-row"></div>
+      </div>
+      <div class="or-divider" data-es="o pegar el texto" data-en="or paste the text">o pegar el texto</div>
+      <div class="info-note">&#x1F4A1; <span data-es="La IA extrae de la transcripci&oacute;n las especificidades que no est&aacute;n en la JD: cultura, urgencia, preferencias, deal breakers." data-en="AI extracts from the transcript the specifics not in the JD: culture, urgency, preferences, deal breakers.">La IA extrae de la transcripci&oacute;n las especificidades que no est&aacute;n en la JD: cultura, urgencia, preferencias, deal breakers.</span></div>
+      <div class="field"><label data-es="Transcripci&oacute;n completa" data-en="Full transcript">Transcripci&oacute;n completa</label><textarea id="transcript" rows="7" placeholder="[00:00] Client: We really need someone who can...&#10;[00:45] HR: Tell me more about the day-to-day..."></textarea></div>
+      <div id="tr-preview" class="aib" style="display:none;font-size:11.5px;max-height:120px;overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn bp" onclick="genOutputs()" id="bgen">&#x2726; <span data-es="Generar Scorecard + Job Posting" data-en="Generate Scorecard + Job Posting">Generar Scorecard + Job Posting</span></button>
+  </div>
+
+  <div id="outarea" style="display:none;margin-top:18px;">
+    <div class="card">
+      <div class="ct"><div class="ca"></div>&#x1F4E4; <span data-es="2 Outputs Generados" data-en="2 Generated Outputs">2 Outputs Generados</span></div>
+      <div class="out-tabs">
+        <button class="otab on" onclick="showOTab(0)">&#x1F3AF; Scorecard</button>
+        <button class="otab" onclick="showOTab(1)">&#x1F4E2; Job Posting</button>
+      </div>
+      <div class="opane on" id="op0">
+        <div class="aib" id="sctxt"></div>
+        <div class="chips" id="scchips"></div>
+        <button class="dl-btn" onclick="downloadText('scorecard')">&#x2B07; <span data-es="Descargar Scorecard (.txt)" data-en="Download Scorecard (.txt)">Descargar Scorecard (.txt)</span></button>
+      </div>
+      <div class="opane" id="op1">
+        <div class="aib" id="jptxt"></div>
+        <button class="dl-btn" onclick="downloadText('jobposting')">&#x2B07; <span data-es="Descargar Job Posting (.txt)" data-en="Download Job Posting (.txt)">Descargar Job Posting (.txt)</span></button>
+      </div>
+    </div>
+    <div class="nav"><div></div><button class="btn bt" onclick="go(1)"><span data-es="Ir al Screening" data-en="Go to Screening">Ir al Screening</span> &rarr;</button></div>
+  </div>
+</div>
+
+<!-- ═══ STAGE 2 ═══ -->
+<div class="stage" id="s1">
+  <div class="card">
+    <div class="ct"><div class="ca"></div>&#x1F4C4; <span data-es="Subir CVs (PDF) &mdash; uno por uno" data-en="Upload CVs (PDF) &mdash; one by one">Subir CVs (PDF) &mdash; uno por uno</span></div>
+    <div class="info-note">&#x26A1; <span data-es="Cada CV se analiza individualmente con IA leyendo el PDF completo. Match &ge;70% genera un 1-pager autom&aacute;tico para el cliente." data-en="Each CV is analyzed individually with AI reading the full PDF. Match &ge;70% auto-generates a client 1-pager.">Cada CV se analiza individualmente con IA leyendo el PDF completo. Match &ge;70% genera un 1-pager autom&aacute;tico para el cliente.</span></div>
+    <div class="fdrop" id="fdrop" onclick="document.getElementById('cvi').click()">
+      <input type="file" id="cvi" accept=".pdf" onchange="addCV(this.files[0]); this.value=''"/>
+      <div style="font-size:22px;margin-bottom:5px;">&#x1F4C1;</div>
+      <div class="fdrop-txt"><strong data-es="Subir CV en PDF" data-en="Upload PDF CV">Subir CV en PDF</strong> &middot; <span data-es="un CV a la vez" data-en="one CV at a time">un CV a la vez</span></div>
+    </div>
+    <div id="flist" class="file-chip-row" style="margin-top:10px;"></div>
+  </div>
+  <div id="cvlist"></div>
+  <div class="nav" style="margin-top:14px;">
+    <button class="btn bg" onclick="go(0)">&larr; <span data-es="Volver" data-en="Back">Volver</span></button>
+    <button class="btn bt" id="bgo3" onclick="go(2)" disabled><span data-es="Ver Calibraci&oacute;n" data-en="View Calibration">Ver Calibraci&oacute;n</span> &rarr;</button>
+  </div>
+</div>
+
+<!-- ═══ STAGE 3 ═══ -->
+<div class="stage" id="s2">
+  <div id="calcards"></div>
+  <button class="btn bp" onclick="runCal()" id="bcal" style="margin-top:4px;">&#x2726; <span data-es="Sintetizar Shortlist Final" data-en="Synthesize Final Shortlist">Sintetizar Shortlist Final</span></button>
+  <div id="calout" style="display:none;margin-top:16px;">
+    <div class="card">
+      <div class="ct"><div class="ca"></div>&#x2705; <span data-es="Shortlist Final &mdash; Listo para Presentar" data-en="Final Shortlist &mdash; Ready to Present">Shortlist Final &mdash; Listo para Presentar</span></div>
+      <div class="aib" id="caltxt"></div>
+      <button class="dl-btn" onclick="downloadText('shortlist')">&#x2B07; <span data-es="Descargar Shortlist (.txt)" data-en="Download Shortlist (.txt)">Descargar Shortlist (.txt)</span></button>
+    </div>
+  </div>
+  <div class="nav" style="margin-top:16px;">
+    <button class="btn bg" onclick="go(1)">&larr; <span data-es="Volver" data-en="Back">Volver</span></button>
+    <button class="btn bg bsm" onclick="resetAll()">&#x21BA; <span data-es="Nuevo Proceso" data-en="New Process">Nuevo Proceso</span></button>
+  </div>
+</div>
+</main>
+
+<!-- MODAL 1-PAGER -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>&#x1F4C4; <span data-es="1-Pager del Candidato" data-en="Candidate 1-Pager">1-Pager del Candidato</span></h3>
+      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('on')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="onepager" id="onepager">
+        <div class="op-header">
+          <div>
+            <div class="op-presented">Presentado por OneSource &middot; Solvo</div>
+            <div class="op-name" id="op-name">&mdash;</div>
+            <div class="op-role" id="op-role">&mdash;</div>
+          </div>
+          <div class="op-score-ring"><div class="op-score-num" id="op-score">&mdash;</div><div class="op-score-lbl">MATCH</div></div>
+        </div>
+        <div class="op-body">
+          <div class="op-sec"><div class="op-sec-title" data-es="Por qu&eacute; este candidato" data-en="Why this candidate">Por qu&eacute; este candidato</div><div class="op-text" id="op-why"></div></div>
+          <div class="op-sec"><div class="op-sec-title" data-es="Fortalezas clave" data-en="Key strengths">Fortalezas clave</div><div class="op-text" id="op-str"></div></div>
+          <div class="op-sec"><div class="op-sec-title" data-es="Alineaci&oacute;n con scorecard" data-en="Scorecard alignment">Alineaci&oacute;n con scorecard</div><div class="op-text" id="op-sc"></div></div>
+          <div class="op-sec"><div class="op-sec-title" data-es="Puntos a validar en entrevista" data-en="Points to validate">Puntos a validar en entrevista</div><div class="op-text" id="op-val"></div></div>
+          <div class="op-tags" id="op-tags"></div>
+        </div>
+        <div class="op-footer">
+          <div class="op-footer-txt">OneSource by Solvo &middot; Governance &amp; Innovation People</div>
+          <div class="op-footer-txt" id="op-date"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+        <button class="btn bp" onclick="downloadOnePager()">&#x2B07; <span data-es="Descargar 1-Pager (.txt)" data-en="Download 1-Pager (.txt)">Descargar 1-Pager (.txt)</span></button>
+        <button class="btn bg" onclick="document.getElementById('modal').classList.remove('on')" data-es="Cerrar" data-en="Close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const S={lang:'es',sc:'',jp:'',shortlist:'',cvs:[],inputFiles:{}};
+
+function setLang(l){S.lang=l;document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent.trim().toLowerCase()===l));document.querySelectorAll('[data-es]').forEach(el=>el.textContent=l==='es'?el.dataset.es:el.dataset.en);}
+function go(n){document.querySelectorAll('.stage').forEach((s,i)=>s.classList.toggle('on',i===n));document.querySelectorAll('.si').forEach((s,i)=>{s.classList.remove('on','dn');if(i===n)s.classList.add('on');else if(i<n)s.classList.add('dn');});document.querySelectorAll('.sc').forEach((c,i)=>c.classList.toggle('dn',i<n));for(let i=0;i<3;i++){const el=document.getElementById('st'+i);if(el){el.classList.remove('on');if(i===n)el.classList.add('on');}}window.scrollTo({top:0,behavior:'smooth'});if(n===2)buildCalCards();}
+function showTab(n){for(let i=0;i<3;i++){document.getElementById('tab'+i)?.classList.toggle('on',i===n);document.getElementById('tp'+i)?.classList.toggle('on',i===n);}}
+function showOTab(n){document.querySelectorAll('.otab').forEach((t,i)=>t.classList.toggle('on',i===n));document.querySelectorAll('.opane').forEach((p,i)=>p.classList.toggle('on',i===n));}
+
+// ─── FILE INPUT LOADER (step 1) ──────────────────────────
+async function loadInputFile(inputId, previewId, chipId) {
+  const file = document.getElementById(inputId).files[0];
+  if (!file) return;
+  const key = inputId.replace('-file','');
+  S.inputFiles[key] = file;
+  // Show chip
+  const chipEl = document.getElementById(chipId);
+  chipEl.innerHTML = '<div class="fchip">📄 ' + file.name + ' <button onclick="clearInputFile(\'' + inputId + '\',\'' + previewId + '\',\'' + chipId + '\')">×</button></div>';
+  // If TXT or small — read as text for preview
+  if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+    const text = await readAsText(file);
+    S.inputFiles[key + '_text'] = text;
+    showPreview(previewId, text.slice(0,300) + (text.length>300?'...':''));
+  } else if (file.type === 'application/pdf') {
+    showPreview(previewId, '📄 PDF cargado: ' + file.name + ' — la IA lo leerá al generar.');
+  } else {
+    showPreview(previewId, '📄 Archivo cargado: ' + file.name + ' — la IA lo procesará al generar.');
+  }
+}
+function clearInputFile(inputId, previewId, chipId) {
+  document.getElementById(inputId).value = '';
+  document.getElementById(chipId).innerHTML = '';
+  document.getElementById(previewId).style.display = 'none';
+  const key = inputId.replace('-file','');
+  delete S.inputFiles[key]; delete S.inputFiles[key+'_text'];
+}
+function showPreview(id, text) {
+  const el = document.getElementById(id);
+  el.style.display = 'block'; el.textContent = text;
+}
+function readAsText(file) {
+  return new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=()=>res('');r.readAsText(file);});
+}
+async function fileToBase64(file) {
+  return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result.split(',')[1]);r.onerror=()=>rej(new Error('Read error'));r.readAsDataURL(file);});
+}
+
+// ─── API ──────────────────────────────────────────────────
+async function api(sys, msgContent) {
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:1000, system:sys, messages:[{role:'user',content:msgContent}]})
+  });
+  const d = await r.json();
+  if (d.error) throw new Error(d.error.message);
+  return d.content?.[0]?.text || '';
+}
+async function into(el, sys, userContent) {
+  el.className='aib ld'; el.innerHTML='<div class="spin"></div> Analizando...';
+  try {
+    const t = await api(sys, userContent);
+    el.className='aib'; let i=0;
+    const iv=setInterval(()=>{el.textContent=t.slice(0,i);i+=12;if(i>t.length){el.textContent=t;clearInterval(iv);}},8);
+    return t;
+  } catch(e) {
+    el.className='aib'; el.innerHTML='<span style="color:#BE123C">&#x26A0; '+e.message+'</span>'; return '';
+  }
+}
+
+// ─── BUILD CONTENT ARRAY (handles PDF files or plain text) ─
+async function buildUserContent(textPrompt, fileKey) {
+  const file = S.inputFiles[fileKey];
+  const txtKey = fileKey + '_text';
+  if (file && file.type === 'application/pdf') {
+    const b64 = await fileToBase64(file);
+    return [
+      {type:'document', source:{type:'base64', media_type:'application/pdf', data:b64}},
+      {type:'text', text:textPrompt}
+    ];
+  } else if (S.inputFiles[txtKey]) {
+    return [{type:'text', text: S.inputFiles[txtKey].slice(0,3000) + '\n\n' + textPrompt}];
+  }
+  return [{type:'text', text:textPrompt}];
+}
+
+// ─── STAGE 1: GENERATE OUTPUTS ───────────────────────────
+async function genOutputs() {
+  const role = document.getElementById('role').value.trim();
+  const jd = document.getElementById('jd').value.trim();
+  if (!role && !jd && !S.inputFiles['jd-file']) {
+    alert(S.lang==='es'?'Completá al menos el Puesto y la JD (o subí el archivo de JD).':'Fill in the Role and JD or upload the JD file.');
+    return;
+  }
+  const btn = document.getElementById('bgen'); btn.disabled=true; btn.textContent='Generando...';
+  document.getElementById('outarea').style.display='block';
+
+  const kyc = 'CLIENT: '+(document.getElementById('cname').value||'N/A')+
+    ' | INDUSTRY: '+(document.getElementById('cind').value||'N/A')+
+    ' | SIZE: '+(document.getElementById('csize').value||'N/A')+
+    ' | LOCATION: '+(document.getElementById('cloc').value||'N/A')+
+    ' | PAIN: '+(document.getElementById('cpain').value||'N/A')+
+    ' | BUDGET: '+(document.getElementById('cbudget').value||'N/A');
+  const tr = document.getElementById('transcript').value.trim();
+  const roleVal = role || 'Role';
+  const jdVal = jd || '(see uploaded JD file)';
+  const trBlock = tr ? 'MEETING TRANSCRIPT:\n'+tr.slice(0,1200) : '';
+
+  const scSys = 'You are a senior HR specialist at a Talent Augmentation company. Generate precise, specific scorecards using all available client context including KYC, job description, and meeting transcript insights.';
+  const scPrompt = kyc+'\nROLE: '+roleVal+'\nJD: '+jdVal+'\n'+trBlock+'\n\nGenerate a SCORECARD:\n1. 5-7 CRITERIA with % weight (total 100%)\n2. Per criterion: what to look for + red flags\n3. IDEAL CANDIDATE profile (2-3 sentences)\n4. TOP 3 SCREENING QUESTIONS specific to this client\n5. DEAL BREAKERS from meeting/KYC context\n\nBe specific to this role and client, not generic.';
+
+  // Build content — if JD file is PDF, include it as document
+  const scContent = await buildUserContent(scPrompt, 'jd');
+  const scText = await into(document.getElementById('sctxt'), scSys, scContent);
+  S.sc = scText;
+
+  const chips = document.getElementById('scchips'); chips.innerHTML='';
+  scText.split('\n').filter(l=>/\d+%/.test(l)).slice(0,8).forEach(l=>{
+    const pct=(l.match(/\d+%/)||[''])[0];
+    const lbl=l.replace(/^[\*\-\d\.\s]+/,'').replace(/\d+%.*/,'').replace(/[:·]/g,'').trim().slice(0,28);
+    if(lbl){const c=document.createElement('div');c.className='chip';c.textContent=lbl+' '+pct;chips.appendChild(c);}
+  });
+
+  const jpSys = 'You are an expert talent acquisition copywriter. Write compelling, authentic job postings that attract the right candidates using the client context.';
+  const jpPrompt = kyc+'\nROLE: '+roleVal+'\nJD: '+jdVal+'\n'+trBlock+'\n\nWrite a professional JOB POSTING:\n- Compelling title and hook\n- Company/team description (authentic, from client context)\n- Key responsibilities\n- Requirements (must-have vs nice-to-have)\n- Why join us\n- Clear CTA\n\nTone: professional but human.';
+  const jpContent = await buildUserContent(jpPrompt, 'jd');
+  const jpText = await into(document.getElementById('jptxt'), jpSys, jpContent);
+  S.jp = jpText;
+
+  btn.disabled=false; btn.innerHTML='&#x2726; Regenerar';
+}
+
+// ─── STAGE 2: CV ANALYSIS WITH REAL PDF READING ──────────
+function addCV(file) {
+  if (!file || file.type !== 'application/pdf') return;
+  if (S.cvs.find(c=>c.name===file.name)) { alert(S.lang==='es'?'Este CV ya fue agregado.':'This CV was already added.'); return; }
+  if (!S.sc) { alert(S.lang==='es'?'Primero generá el scorecard en el paso 1.':'Generate the scorecard in step 1 first.'); return; }
+  const cv = {name:file.name, file, score:null, analysis:'', onepager:null, candidateName:''};
+  S.cvs.push(cv);
+  renderPending(cv);
+  analyzeCV(cv);
+}
+
+function renderPending(cv) {
+  const list = document.getElementById('cvlist');
+  const id = 'cv-'+cv.name.replace(/\W/g,'_');
+  const div = document.createElement('div'); div.id=id; div.className='cc rx';
+  div.innerHTML='<div class="ch"><div style="display:flex;align-items:center;gap:8px;"><div class="rb2">&#x23F3;</div><div><div class="rname">'+cv.name+'</div></div></div><div class="aib ld" style="margin:0;padding:4px 10px;font-size:11px;width:auto;"><div class="spin" style="width:12px;height:12px;"></div>&nbsp;Leyendo CV...</div></div>';
+  list.appendChild(div);
+  const fc=document.getElementById('flist');
+  const chip=document.createElement('div'); chip.className='fchip'; chip.textContent='📄 '+cv.name; fc.appendChild(chip);
+}
+
+async function analyzeCV(cv) {
+  let b64;
+  try { b64 = await fileToBase64(cv.file); }
+  catch(e) { renderCVErr(cv,'No se pudo leer el archivo PDF.'); return; }
+
+  const payload = {
+    model:'claude-sonnet-4-20250514', max_tokens:1000,
+    system:'You are a senior HR specialist. Read the attached CV carefully and analyze it against the provided scorecard. Give an objective match score from 0-100. Even if the CV is in Spanish, analyze it correctly.',
+    messages:[{role:'user', content:[
+      {type:'document', source:{type:'base64', media_type:'application/pdf', data:b64}},
+      {type:'text', text:'SCORECARD:\n'+S.sc.slice(0,900)+'\n\nAnalyze this CV against the scorecard. Respond in EXACTLY this format:\nSCORE: [0-100]\nCANDIDATE NAME: [full name from CV]\nROLE FIT: [one sentence on overall fit]\nSTRENGTHS:\n- [strength 1]\n- [strength 2]\n- [strength 3]\nCONCERNS:\n- [concern 1]\n- [concern 2]\nSCORECARD BREAKDOWN: [2-3 sentences on how they map to scorecard criteria]\nRECOMMENDATION: [PRESENT / HOLD / DISCARD]'}
+    ]}]
+  };
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const d = await r.json();
+    if(d.error) throw new Error(d.error.message);
+    const t = d.content?.[0]?.text||'';
+    cv.analysis=t;
+    const sm=t.match(/SCORE[\s:]+(\d+)/i); cv.score=sm?parseInt(sm[1]):0;
+    const nm=t.match(/CANDIDATE NAME[\s:]+([^\n]+)/i); cv.candidateName=nm?nm[1].trim():cv.name.replace(/\.pdf$/i,'');
+    renderCVCard(cv);
+    if(cv.score>=70) await buildOnePager(cv);
+    checkGo3();
+  } catch(e) {
+    renderCVErr(cv, e.message);
+  }
+}
+
+function renderCVErr(cv, msg) {
+  const el=document.getElementById('cv-'+cv.name.replace(/\W/g,'_'));
+  if(el){el.className='cc err-card';el.innerHTML='<div class="ch"><div style="display:flex;align-items:center;gap:8px;"><div class="rb2">&#x26A0;</div><div><div class="rname">'+cv.name+'</div><div style="font-size:11px;color:#BE123C;">'+msg+'</div></div></div></div>';}
+}
+
+function renderCVCard(cv) {
+  const id='cv-'+cv.name.replace(/\W/g,'_');
+  const el=document.getElementById(id); if(!el) return;
+  const isMatch=cv.score>=70;
+  const cls=isMatch?'match-card':cv.score>=50?'r2':'rx';
+  const sc=cv.score>=75?'sh':cv.score>=55?'sm':'sl2';
+  const lines=cv.analysis.split('\n');
+  const roleFit=(lines.find(l=>/ROLE FIT/i.test(l))||'').replace(/ROLE FIT[\s:]*/i,'').trim();
+  const strs=lines.filter(l=>l.trim().startsWith('-')).slice(0,3).join('\n');
+  el.className='cc '+cls;
+  el.innerHTML=
+    '<div class="ch"><div style="display:flex;align-items:center;gap:8px;"><div class="rb2">'+(isMatch?'&#x2705;':'#')+'</div><div><div class="rname">'+(cv.candidateName||cv.name)+'</div><div style="font-size:10px;color:var(--muted);">'+cv.name+'</div></div></div>'+
+    '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;"><div class="score-chip '+sc+'">'+cv.score+'/100</div>'+(isMatch?'<div class="match-badge">&#x2265;70% MATCH &#x2B50;</div>':'')+'</div></div>'+
+    '<div class="cwhy">'+roleFit+'</div>'+
+    (isMatch?
+      '<div class="match-alert"><div class="ma-title">&#x2B50; Match confirmado &mdash; 1-pager disponible</div><div class="ma-body" id="ma-'+cv.name.replace(/\W/g,'_')+'">Generando 1-pager...</div><div style="margin-top:8px;"><button class="btn bp bsm" onclick=\'showOnePager("'+cv.name.replace(/\W/g,'_')+'")\'> &#x1F4C4; Ver 1-Pager</button></div></div>':
+      '<div class="cwhy">'+strs+'</div>'
+    );
+}
+
+async function buildOnePager(cv) {
+  const sys='You are an expert at writing compelling candidate 1-pagers for executive clients. Write a confident, specific, client-facing summary.';
+  const usr='ROLE + SCORECARD:\n'+S.sc.slice(0,500)+'\n\nCV ANALYSIS:\n'+cv.analysis+'\n\nWrite a CLIENT-FACING 1-pager with EXACTLY these labeled sections:\nWHY THIS CANDIDATE: [2-3 compelling sentences]\nKEY STRENGTHS:\n- [specific strength 1]\n- [specific strength 2]\n- [specific strength 3]\nSCORECARD ALIGNMENT: [2 sentences]\nPOINTS TO VALIDATE: [1-2 things to confirm]\nTAGS: [5-7 keywords separated by |]\n\nBe confident, specific, client-ready.';
+  try {
+    const t=await api(sys,[{type:'text',text:usr}]);
+    cv.onepager=t;
+    const maEl=document.getElementById('ma-'+cv.name.replace(/\W/g,'_'));
+    if(maEl){const whyLine=t.split('\n').find(l=>/WHY THIS/i.test(l));maEl.textContent=whyLine?whyLine.replace(/WHY THIS CANDIDATE[\s:]*/i,'').trim():t.slice(0,130)+'...';}
+  } catch(e){console.error('1-pager:',e);}
+}
+
+function showOnePager(nameKey) {
+  const cv=S.cvs.find(c=>c.name.replace(/\W/g,'_')===nameKey);
+  if(!cv||!cv.onepager){alert(S.lang==='es'?'El 1-pager aún se está generando, esperá un momento.':'The 1-pager is still generating, wait a moment.'); return;}
+  const t=cv.onepager;
+  document.getElementById('op-name').textContent=cv.candidateName||cv.name;
+  document.getElementById('op-role').textContent=document.getElementById('role').value||'Role';
+  document.getElementById('op-score').textContent=cv.score+'%';
+  document.getElementById('op-date').textContent=new Date().toLocaleDateString();
+  const getSection=(key)=>{const ls=t.split('\n');const i=ls.findIndex(l=>new RegExp(key,'i').test(l));if(i<0)return '';const hdrs=['WHY','KEY STR','SCORECARD','POINTS','TAGS','RECOMMENDATION'];let end=ls.length;for(let j=i+1;j<ls.length;j++){if(hdrs.some(h=>new RegExp('^'+h,'i').test(ls[j].trim()))&&j>i+1){end=j;break;}}return ls.slice(i+1,end).filter(l=>l.trim()).join('\n').trim();};
+  const getInline=(key)=>{const l=t.split('\n').find(l=>new RegExp(key,'i').test(l));return l?l.replace(new RegExp(key+'[\\s:]*','i'),'').trim():'';};
+  document.getElementById('op-why').textContent=getInline('WHY THIS CANDIDATE')||getSection('WHY THIS');
+  document.getElementById('op-str').textContent=getSection('KEY STRENGTHS');
+  document.getElementById('op-sc').textContent=getInline('SCORECARD ALIGNMENT')||getSection('SCORECARD ALIGN');
+  document.getElementById('op-val').textContent=getSection('POINTS TO VALIDATE');
+  const tagsLine=t.split('\n').find(l=>/^TAGS/i.test(l.trim()));
+  const tags=tagsLine?tagsLine.replace(/TAGS[\s:]*/i,'').split('|').map(s=>s.trim()).filter(Boolean):[];
+  const tagsEl=document.getElementById('op-tags'); tagsEl.innerHTML='';
+  tags.forEach(tag=>{const d=document.createElement('div');d.className='op-tag';d.textContent=tag;tagsEl.appendChild(d);});
+  document.getElementById('modal').classList.add('on');
+}
+
+function closeModal(e){if(e.target.id==='modal')document.getElementById('modal').classList.remove('on');}
+
+// ─── DOWNLOADS ───────────────────────────────────────────
+function downloadText(type) {
+  let content='', filename='';
+  if(type==='scorecard'){content=S.sc;filename='Scorecard_'+new Date().toISOString().slice(0,10)+'.txt';}
+  else if(type==='jobposting'){content=S.jp;filename='JobPosting_'+new Date().toISOString().slice(0,10)+'.txt';}
+  else if(type==='shortlist'){content=document.getElementById('caltxt').textContent;filename='Shortlist_'+new Date().toISOString().slice(0,10)+'.txt';}
+  if(!content){alert('No hay contenido para descargar todavía.');return;}
+  const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+}
+function downloadOnePager() {
+  const el=document.getElementById('onepager');
+  const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+  let text=''; let node;
+  while(node=walker.nextNode())if(node.textContent.trim())text+=node.textContent.trim()+'\n';
+  const name=document.getElementById('op-name').textContent;
+  const blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='1Pager_'+name.replace(/\s/g,'_')+'.txt';a.click();
+}
+
+// ─── STAGE 3 ─────────────────────────────────────────────
+function checkGo3(){document.getElementById('bgo3').disabled=!S.cvs.some(c=>c.score>=70);}
+
+function buildCalCards(){
+  const con=document.getElementById('calcards'); con.innerHTML='';
+  const matched=S.cvs.filter(c=>c.score>=70).sort((a,b)=>b.score-a.score);
+  if(!matched.length){con.innerHTML='<div class="info-note">&#x26A0; <span>'+(S.lang==='es'?'No hay candidatos con match &ge;70% todavía. Volvé al paso 2 para agregar más CVs.':'No candidates with match &ge;70% yet. Go back to step 2 to add more CVs.')+'</span></div>';return;}
+  matched.forEach((cv,i)=>{
+    const sc=cv.score>=75?'sh':cv.score>=55?'sm':'sl2';
+    const d=document.createElement('div');d.className='cc match-card';
+    d.innerHTML='<div class="ch"><div style="display:flex;align-items:center;gap:8px;"><div class="rb2">&#x2B50;</div><div><div class="rname">'+(cv.candidateName||cv.name)+'</div><div style="font-size:10px;color:var(--muted);">'+cv.name+'</div></div></div>'+
+      '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;"><div class="score-chip '+sc+'">'+cv.score+'/100</div><button class="btn bp bsm" onclick=\'showOnePager("'+cv.name.replace(/\W/g,'_')+'")\'> &#x1F4C4; 1-Pager</button></div></div>'+
+      '<div class="cwhy" style="margin-bottom:8px;">'+cv.analysis.split('\n').filter(l=>l.trim()&&!/^(SCORE|CANDIDATE|ROLE FIT|STRENGTHS|CONCERNS|SCORECARD|RECOMMENDATION|FORMAT)/i.test(l)).slice(0,2).join(' ').slice(0,220)+'</div>'+
+      '<div class="hr-note-area"><label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--or2);margin-bottom:4px;">'+(S.lang==='es'?'TU CRITERIO HR':'YOUR HR NOTES')+'</label><textarea id="cal'+i+'" rows="2" style="width:100%;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:7px 11px;font-family:Poppins,sans-serif;font-size:12px;outline:none;resize:vertical;" placeholder="'+(S.lang==='es'?'Ej: Excelente fit, lo entrevisté, buen inglés, disponible inmediato...':'e.g. Great fit, interviewed, strong English, available immediately...')+'"></textarea></div>';
+    con.appendChild(d);
+  });
+}
+
+async function runCal(){
+  const matched=S.cvs.filter(c=>c.score>=70).sort((a,b)=>b.score-a.score);
+  const fb=matched.map((cv,i)=>(cv.candidateName||cv.name)+' ('+cv.score+'/100): '+(document.getElementById('cal'+i)?.value||'Sin notas HR')).join('\n');
+  const btn=document.getElementById('bcal');btn.disabled=true;btn.textContent='Sintetizando...';
+  document.getElementById('calout').style.display='block';
+  const t=await into(document.getElementById('caltxt'),
+    'You are an HR calibration specialist. Synthesize scored candidates and HR feedback into a decisive, client-ready shortlist recommendation.',
+    [{type:'text',text:'SCORECARD:\n'+S.sc.slice(0,400)+'\n\nCANDIDATES WITH ≥70% MATCH + HR NOTES:\n'+fb+'\n\n1. RECOMMENDED SHORTLIST: Top 2-3, ranked and justified\n2. WHY EACH: 2 sentences per candidate\n3. HOW TO PRESENT to client (key talking point)\n4. CONCERNS: Flag anything transparently\n5. HOLD FOR FUTURE: Keep any for next searches?\n\nBe decisive and client-ready.'}]
+  );
+  S.shortlist=t;
+  btn.disabled=false;btn.innerHTML='&#x2726; Re-sintetizar';
+}
+
+function resetAll(){
+  if(!confirm(S.lang==='es'?'¿Iniciás un nuevo proceso?':'Start a new process?'))return;
+  Object.assign(S,{sc:'',jp:'',shortlist:'',cvs:[],inputFiles:{}});
+  ['cname','cind','csize','cloc','cpain','cbudget','role','jd','transcript'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['kyc-file','jd-file','tr-file'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['kyc-chip','jd-chip','tr-chip'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});
+  ['kyc-preview','jd-preview','tr-preview'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  document.getElementById('outarea').style.display='none';
+  document.getElementById('calout').style.display='none';
+  document.getElementById('cvlist').innerHTML='';
+  document.getElementById('calcards').innerHTML='';
+  document.getElementById('flist').innerHTML='';
+  document.getElementById('bgo3').disabled=true;
+  go(0);
+}
+
+const fd=document.getElementById('fdrop');
+fd.addEventListener('dragover',e=>{e.preventDefault();fd.classList.add('drag');});
+fd.addEventListener('dragleave',()=>fd.classList.remove('drag'));
+fd.addEventListener('drop',e=>{e.preventDefault();fd.classList.remove('drag');if(e.dataTransfer.files[0])addCV(e.dataTransfer.files[0]);});
+</script>
+</body>
+</html>
